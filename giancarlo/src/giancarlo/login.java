@@ -41,20 +41,23 @@ public class login  implements Runnable{
           accedi=clientsocket;
           System.out.println(accedi.getInetAddress());
           try {
-            out=new PrintWriter(accedi.getOutputStream(),true);
-            in=new BufferedReader(new InputStreamReader(accedi.getInputStream()));
+           // out=new PrintWriter(accedi.getOutputStream(),true);
+            //in=new BufferedReader(new InputStreamReader(accedi.getInputStream()));
+             o=new ObjectInputStream(accedi.getInputStream());
               oi = accedi.getOutputStream();
-             oo = new ObjectOutputStream(oi);
+              System.out.println(accedi.getInputStream());
+             oo = new ObjectOutputStream(accedi.getOutputStream());
+              System.out.println(accedi.getOutputStream());
             log=true;
         } catch (IOException ex) {
             Logger.getLogger(login.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    public void interazioni() throws IOException{
+    public void interazioni() throws IOException, ClassNotFoundException{
         boolean ciclo=true;
         while(ciclo==true){
         try {
-            String richiesta=in.readLine();
+            String richiesta=(String) o.readObject();
             System.out.println(richiesta);
             String[]m=richiesta.split(":");
             int n=Integer.parseInt(m[0]);
@@ -136,9 +139,12 @@ public class login  implements Runnable{
 
     @Override
     public void run() {
+        System.out.println("sjsjsj");
        try { 
            interazioni();
        } catch (IOException ex) {
+           Logger.getLogger(login.class.getName()).log(Level.SEVERE, null, ex);
+       } catch (ClassNotFoundException ex) {
            Logger.getLogger(login.class.getName()).log(Level.SEVERE, null, ex);
        }
     }

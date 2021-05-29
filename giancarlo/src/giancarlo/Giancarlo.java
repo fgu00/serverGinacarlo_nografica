@@ -39,6 +39,7 @@ public class Giancarlo {
                         System.out.println(client.getInetAddress()+" jdjfdofjckodf");
                         acesso.accedi(client);
                         Thread a=new Thread(acesso);
+                        System.out.println("jddjdede");
                         a.start();
                         log.add(a);
                         for (int i = 0; i < log.size(); i++) {
